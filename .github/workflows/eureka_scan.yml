@@ -1,0 +1,37 @@
+name: Test GitHub Action Custom Scanner Inputs Workflow
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+
+jobs:
+  eureka-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install && npm i --package-lock-only
+                
+      - name: Run Eureka Scan
+        uses: FWDSEC/eureka-scan-action@5886-custom-scanner-inputs
+        env:
+          EUREKA_ENDPOINT: ${{ secrets.EUREKA_ENDPOINT }}
+          EUREKA_USER: ${{ secrets.EUREKA_USER }}
+          EUREKA_PASSWORD: ${{ secrets.EUREKA_PASSWORD }}
+          PROFILE_INFO: ${{ vars.PROFILE_INFO }}
+        with:
+         sonarqube_user_token: ${{ secrets.SONARQUBE_TOKEN }}
+         veracode_api_key_id: ${{ secrets.VERACODE_API_KEY_ID }}
+         veracode_api_key_secret: ${{ secrets.veracode_api_key_secret }}
+         snyk_token: ${{ secrets.SNYK_TOKEN }}
+
+
