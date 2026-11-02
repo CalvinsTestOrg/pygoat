@@ -23,6 +23,8 @@ services:
   migration:
     image: pygoat/pygoat
     command: python pygoat/manage.py migrate --noinput
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - .:/app
     depends_on:
