@@ -971,22 +971,26 @@ def ssti_lab(request):
             users_blogs = Blogs.objects.filter(author=request.user)
             return render(request,"Lab_2021/A3_Injection/ssti_lab.html", {"blogs":users_blogs})
         elif request.method=="POST":
-            blog = request.POST["blog"]
-            id = str(uuid.uuid4()).split('-')[-1]
+            import os
+from django.utils.html import escape
 
-            blog = filter_blog(blog)
-            prepend_code = "{% extends 'introduction/base.html' %}\
-                {% block content %}{% block title %}\
-                <title>SSTI-Blogs</title>\
-                {% endblock %}"
-            
-            blog = prepend_code + blog + "{% endblock %}"
-            new_blog = Blogs.objects.create(author = request.user, blog_id = id)
-            new_blog.save() 
-            dirname = os.path.dirname(__file__)
-            filename = os.path.join(dirname, f"templates/Lab_2021/A3_Injection/Blogs/{id}.html")
-            file = open(filename, "w+") 
-            file.write(blog)
+blog = request.POST["blog"]
+id = str(uuid.uuid4()).split('-')[-1]
+
+blog = filter_blog(blog)
+blog = escape(blog)  # Sanitize user input to prevent injection
+prepend_code = "{% extends 'introduction/base.html' %}\
+    {% block content %}{% block title %}\
+    <title>SSTI-Blogs</title>\
+    {% endblock %}"
+
+blog = prepend_code + blog + "{% endblock %}"
+new_blog = Blogs.objects.create(author = request.user, blog_id = id)
+new_blog.save() 
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, f"templates/Lab_2021/A3_Injection/Blogs/{id}.html")
+file = open(filename, "w+") 
+file.write(blog)
             file.close()
             return redirect(f'blog/{id}')
     else:
