@@ -154,7 +154,8 @@ def sql_lab(request):
 
             if login.objects.filter(user=name):
 
-                sql_query = "SELECT * FROM introduction_login WHERE user='"+name+"'AND password='"+password+"'"
+                sql_query = sql_query = "SELECT * FROM introduction_login WHERE user=:name AND password=:password" 
+replacements = { 'name': name, 'password': password }
                 print(sql_query)
                 try:
                     print("\nin try\n")
