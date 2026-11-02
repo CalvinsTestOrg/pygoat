@@ -13,6 +13,7 @@ services:
     build: .
     image: pygoat/pygoat
     command: gunicorn --bind 0.0.0.0:8000 --workers 6 pygoat.wsgi
+    read_only: true
     ports:
       - "8000:8000"
     volumes:
