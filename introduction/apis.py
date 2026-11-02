@@ -19,7 +19,6 @@ from .views import authentication_decorator
 # 2. extract inputs form 2nd code 
 # 3. Run the code 
 # 4. get the result
-@csrf_exempt
 def ssrf_code_checker(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -30,7 +29,7 @@ def ssrf_code_checker(request):
             test_bench1 = ssrf_html_input_extractor(html_code)
             
             if (len(test_bench1) >4):
-                return JsonResponse({'message':'too many inputs in Html\n Try again'},status = 400)
+                return JsonResponse({'message':'too many inputs in Html Try again'},status = 400)
             test_bench2 = ['secret.txt']
             correct_output1 = [{"blog": "blog1-passed"}, {"blog": "blog2-passed"}, {"blog": "blog3-passed"}, {"blog": "blog4-passed"}]
             outputs = []
@@ -39,7 +38,7 @@ def ssrf_code_checker(request):
             if outputs == correct_output1:
                 outputs = []
             else:
-                return JsonResponse({'message':'Testbench failed, Code is not working\n Try again'},status = 200)
+                return JsonResponse({'message':'Testbench failed, Code is not working Try again'},status = 200)
 
             correct_output2 = [{"blog": "No blog found"}]
             for inputs in test_bench2:
