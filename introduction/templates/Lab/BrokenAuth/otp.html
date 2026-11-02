@@ -15,11 +15,7 @@
     </div>
 </div>
 <div class="container">
-    <form method="post" action="/otp">
-        <label for='enter'>Enter Your OTP:</label>
-        <input id="enter" type="number" maxlength="3" name="otp"><br><br>
-        <button class="btn btn-info" type="submit">Log in</button>
-    </form>
+    <form method="post" action="/otp">\n    {% csrf_token %}\n    <label for='enter'>Enter Your OTP:</label>\n    <input id="enter" type="number" maxlength="3" name="otp"><br><br>\n    <button class="btn btn-info" type="submit">Log in</button>\n</form>
 </div><br>
 <div class="container">
     {% if otp %}
