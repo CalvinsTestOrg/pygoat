@@ -174,7 +174,8 @@ def csrf_lab_login(request):
             return redirect('/mitre/9/lab/login')
 
 @authentication_decorator
-@csrf_exempt
+# @csrf_exempt
+
 def csrf_transfer_monei(request):
     if request.method == 'GET':
         try:
