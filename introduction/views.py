@@ -246,8 +246,9 @@ def xxe_see(request):
         return redirect('login')
 
 
-@csrf_exempt
 def xxe_parse(request):
+    if not request.META.get('HTTP_X_CSRF_TOKEN') or not csrf_exempt(request):
+        return HttpResponseForbidden('CSRF token missing or incorrect.')
 
     parser = make_parser()
     parser.setFeature(feature_external_ges, True)
