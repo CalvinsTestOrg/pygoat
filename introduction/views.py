@@ -281,7 +281,8 @@ def auth_lab_signup(request):
             obj = authLogin.objects.create(name=name,username=user_name,password=passwd)
             try:
                 rendered = render_to_string('Lab/AUTH/auth_success.html', {'username': obj.username,'userid':obj.userid,'name':obj.name,'err_msg':'Cookie Set'})
-                response = HttpResponse(rendered)
+                response = from django.utils.safestring import mark_safe
+response = HttpResponse(mark_safe(rendered))
                 response.set_cookie('userid', obj.userid, max_age=31449600, samesite=None, secure=False)
                 print('Setting cookie successful')
                 return response
