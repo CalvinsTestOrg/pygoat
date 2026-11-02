@@ -1,7 +1,9 @@
 import datetime
+import ast
 import re
 import subprocess
 from hashlib import md5
+import operator
 
 import jwt
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
@@ -215,7 +217,37 @@ def csrf_transfer_monei_api(request,recipent,amount):
 def mitre_lab_25_api(request):
     if request.method == "POST":
         expression = request.POST.get('expression')
-        result = eval(expression)
+        def _safe_eval(node):
+            if isinstance(node, ast.Expression):
+                return _safe_eval(node.body)
+            if isinstance(node, ast.Constant):
+                return node.value
+            if isinstance(node, ast.BinOp):
+                ops = {
+                    ast.Add: operator.add,
+                    ast.Sub: operator.sub,
+                    ast.Mult: operator.mul,
+                    ast.Div: operator.truediv,
+                    ast.FloorDiv: operator.floordiv,
+                    ast.Mod: operator.mod,
+                    ast.Pow: operator.pow,
+                }
+                op = ops.get(type(node.op))
+                if op is None:
+                    raise ValueError("Unsupported expression")
+                return op(_safe_eval(node.left), _safe_eval(node.right))
+            if isinstance(node, ast.UnaryOp):
+                ops = {
+                    ast.UAdd: operator.pos,
+                    ast.USub: operator.neg,
+                }
+                op = ops.get(type(node.op))
+                if op is None:
+                    raise ValueError("Unsupported expression")
+                return op(_safe_eval(node.operand))
+            raise ValueError("Unsupported expression")
+
+        result = _safe_eval(ast.parse(expression, mode='eval'))
         return JsonResponse({'result': result})
     else:
         return redirect('/mitre/25/lab/')
