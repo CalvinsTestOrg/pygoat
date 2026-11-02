@@ -952,11 +952,13 @@ def ssrf_lab2(request):
 
     elif request.method == "POST":
         url = request.POST["url"]
-        try:
-            response = requests.get(url)
-            return render(request, "Lab/ssrf/ssrf_lab2.html", {"response": response.content.decode()})
-        except:
-            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "Invalid URL"})
+if not validators.url(url):
+    return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "Invalid URL"})
+try:
+    response = requests.get(url)
+    return render(request, "Lab/ssrf/ssrf_lab2.html", {"response": response.content.decode()})
+except:
+    return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "Request failed"})
 #--------------------------------------- Server-side template injection --------------------------------------#
 
 def ssti(request):
