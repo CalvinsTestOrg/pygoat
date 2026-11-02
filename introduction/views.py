@@ -844,17 +844,16 @@ def injection(request):
     return render(request,"Lab_2021/A3_Injection/injection.html")
 
 
-@csrf_exempt
 def injection_sql_lab(request):
     if request.user.is_authenticated:
-
+        # CSRF protection is now enabled
         name=request.POST.get('name')
         password=request.POST.get('pass')
         print(name)
         print(password)
 
         if name:
-            sql_query = "SELECT * FROM introduction_sql_lab_table WHERE id='"+name+"'AND password='"+password+"'"
+            sql_query = "SELECT * FROM introduction_sql_lab_table WHERE id=:name AND password=:password"
 
             sql_instance = sql_lab_table(id="admin", password="65079b006e85a7e798abecb99e47c154")
             sql_instance.save()
@@ -868,7 +867,7 @@ def injection_sql_lab(request):
             print(sql_query)
 
             try:
-                user = sql_lab_table.objects.raw(sql_query)
+                user = sql_lab_table.objects.raw(sql_query, {'name': name, 'password': password})
                 user = user[0].id
                 print(user)
 
