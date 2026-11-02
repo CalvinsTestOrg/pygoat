@@ -1071,7 +1071,7 @@ def crypto_failure_lab3(request):
                     return response
                 else:
                     response = render(request,"Lab_2021/A2_Crypto_failur/crypto_failure_lab3.html",{"success":False, "failure":True})
-                    response.set_cookie("cookie", None)
+                    response.set_cookie("cookie", None, secure=True, httponly=True, samesite='Lax')
                     return response
             except:
                 return render(request,"Lab_2021/A2_Crypto_failur/crypto_failure_lab2.html",{"success":False, "failure":True})
