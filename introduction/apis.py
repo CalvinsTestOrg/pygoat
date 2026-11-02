@@ -90,7 +90,6 @@ def log_function_checker(request):
         return JsonResponse({"message":"method not allowed"},status = 405)
 
 #a7 codechecking api
-@csrf_exempt
 def A7_disscussion_api(request):
     if request.method != 'POST':
         return JsonResponse({"message":"method not allowed"},status = 405)
@@ -99,6 +98,10 @@ def A7_disscussion_api(request):
         code = request.POST.get('code')
     except:
         return JsonResponse({"message":"missing code"},status = 400)
+
+    # CSRF protection should be enforced here
+    if not request.META.get('HTTP_X_CSRFTOKEN'):
+        return JsonResponse({"message":"CSRF token missing"}, status=403)
 
     search_snipet = "AF_session_id.objects.get(sesssion_id = cookie).delete()"
     search_snipet2 = "AF_session_id.objects.get(sesssion_id=cookie).delete()"
