@@ -23,6 +23,7 @@ services:
   migration:
     image: pygoat/pygoat
     command: python pygoat/manage.py migrate --noinput
+    read_only: true
     volumes:
       - .:/app
     depends_on:
