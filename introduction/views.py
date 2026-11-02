@@ -1016,7 +1016,7 @@ def crypto_failure_lab(request):
             username = request.POST["username"]
             password = request.POST["password"]
             try:
-                password = md5(password.encode()).hexdigest()
+                password = password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
                 user = CF_user.objects.get(username=username,password=password)
                 return render(request,"Lab_2021/A2_Crypto_failur/crypto_failure_lab.html",{"user":user, "success":True,"failure":False})
             except:
