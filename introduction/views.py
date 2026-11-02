@@ -207,7 +207,7 @@ def insec_des_lab(request):
         token = request.COOKIES.get('token')
         if token == None:
             token = encoded_user
-            response.set_cookie(key='token',value=token.decode('utf-8'))
+                        response.set_cookie(key='token', value=token.decode('utf-8'), secure=True, httponly=True, samesite='Lax')
         else:
             token = base64.b64decode(token)
             admin = pickle.loads(token)
