@@ -19,10 +19,11 @@
     </ul>
     
     <form enctype="multipart/form-data" id="a9_form2" method="POST" style="display: flex;flex-direction: column;align-items: center;margin-bottom: 50px;">
-        <input type="file" name="file" id="a9_file" />
-        <input type="text" name="function" id="a9_function" placeholder="function"/>
-        <button type="submit" id="a9_submit" >Submit</button>
-    </form><br><br>
+    {% csrf_token %}
+    <input type="file" name="file" id="a9_file" />
+    <input type="text" name="function" id="a9_function" placeholder="function"/>
+    <button type="submit" id="a9_submit" >Submit</button>
+</form><br><br><br><br>
 
     {% if success %}
     <div id="img_container" style="margin-bottom : 50px">
