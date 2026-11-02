@@ -980,7 +980,7 @@ def ssti_lab(request):
                 <title>SSTI-Blogs</title>\
                 {% endblock %}"
             
-            blog = prepend_code + blog + "{% endblock %}"
+            blog = blog = prepend_code + escape(blog) + "{% endblock %}"
             new_blog = Blogs.objects.create(author = request.user, blog_id = id)
             new_blog.save() 
             dirname = os.path.dirname(__file__)
