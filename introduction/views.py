@@ -326,7 +326,6 @@ def auth_lab_logout(request):
 
 #***************************************************************Broken Access Control************************************************************#
 
-@csrf_exempt
 def ba(request):
     if request.user.is_authenticated:
         return render(request,"Lab/BrokenAccess/ba.html")
