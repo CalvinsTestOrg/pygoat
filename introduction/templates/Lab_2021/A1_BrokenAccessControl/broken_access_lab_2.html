@@ -8,14 +8,7 @@
 <div class="jumbotron">
     <h4 style="text-align:center"> Can you log in as an admin and get the secretkey?</h4>
     <div class="login">
-        <form method="post" action="/broken_access_lab_2">
-
-            <input id="input" type="text" name="name" placeholder="User Name"><br>
-            <input id="input" type="password" name="pass" placeholder="Password"><br>
-            <button style="margin-top:20px" class="btn btn-info" type="submit"> Log in</button>
-
-
-        </form>
+        <form method="post" action="/broken_access_lab_2">\n    {% csrf_token %}\n    <input id="input" type="text" name="name" placeholder="User Name"><br>\n    <input id="input" type="password" name="pass" placeholder="Password"><br>\n    <button style="margin-top:20px" class="btn btn-info" type="submit"> Log in</button>\n</form>
     </div>
 </div>
 <div class="container">
