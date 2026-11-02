@@ -4,9 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .main import Log
 
 
-@csrf_exempt
 def log_function_target(request):
-    L = Log(request)
     if request.method == "GET":
         L.info("GET request")
         return JsonResponse({"message":"normal get request", "method":"get"},status = 200)
