@@ -868,7 +868,7 @@ def injection_sql_lab(request):
             print(sql_query)
 
             try:
-                user = sql_lab_table.objects.raw(sql_query)
+                user = user = sql_lab_table.objects.raw("SELECT * FROM sql_lab_table WHERE condition = %s", [condition])
                 user = user[0].id
                 print(user)
 
