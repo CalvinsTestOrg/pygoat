@@ -7,11 +7,7 @@
 
 <div class="jumbotron">
     <h4 style="text-align:center"> Yaml To Json Converter</h4>
-    <form enctype="multipart/form-data" method="post" action="/a9_lab">
-        <input type="file" name="file"><br>
-        <br>
-        <button class="btn btn-info" type="submit">Upload</button>
-    </form>
+    <form enctype="multipart/form-data" method="post" action="/a9_lab">\n    {% csrf_token %}\n    <input type="file" name="file"><br>\n    <br>\n    <button class="btn btn-info" type="submit">Upload</button>\n</form>
 </div> <br>
 <br>
 <div class="container">
