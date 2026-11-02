@@ -61,13 +61,12 @@ def ssrf_code_checker(request):
 def log_function_checker(request):
     if request.method == 'POST':
         csrf_token = request.POST.get("csrfmiddlewaretoken")
-        log_code = request.POST.get('log_code')
-        api_code = request.POST.get('api_code')
-        dirname = os.path.dirname(__file__)
-        log_filename = os.path.join(dirname, "playground/A9/main.py")
-        api_filename = os.path.join(dirname, "playground/A9/api.py")
-        f = open(log_filename,"w")
-        f.write(log_code)
+        import re
+
+log_code = request.POST.get('log_code')
+log_code = re.sub(r'[\r\n]', '', log_code)  # Sanitize input to prevent CRLF injection
+f = open(log_filename,"w")
+f.write(log_code)
         f.close()
         f = open(api_filename,"w")
         f.write(api_code)
