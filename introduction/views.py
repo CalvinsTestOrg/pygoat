@@ -1099,7 +1099,7 @@ def sec_misconfig_lab3(request):
 
         cookie = jwt.encode(payload, SECRET_COOKIE_KEY, algorithm='HS256')
         response = render(request,"Lab/sec_mis/sec_mis_lab3.html", {"admin":False} )
-        response.set_cookie(key = "auth_cookie", value = cookie)
+                response.set_cookie(key = "auth_cookie", value = cookie, secure=True, httponly=True, samesite='Lax')
         return response
 
 # - ------------------------Identification and Authentication Failures--------------------------------
