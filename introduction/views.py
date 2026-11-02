@@ -405,7 +405,9 @@ def cmd(request):
         return render(request,'Lab/CMD/cmd.html')
     else:
         return redirect('login')
-@csrf_exempt
+# Remove the @csrf_exempt decorator to enable CSRF protection
+# @csrf_exempt
+
 def cmd_lab(request):
     if request.user.is_authenticated:
         if(request.method=="POST"):
